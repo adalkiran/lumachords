@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg Installation Instructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        
+        .intro {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .intro p {
+            margin-bottom: 10px;
+        }
+        
+        .content-section {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+            font-size: 1.6em;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .install-option {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .install-option h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FFmpeg Installation Guide</h1>
+            <p style="font-size: 1.1em; color: #7f8c8d;">A guide to adding FFmpeg support to LumaChords</p>
+        </div>
+
+        <div class="intro">
+            <p>If you have redirected to this page, LumaChords could not locate FFmpeg on your system.</p>
+            <p>To enable video features, please install FFmpeg using one of the methods below based on your operating system.</p>
+        </div>
+
+        <div class="intro">
+            <p><strong>Why is FFmpeg distributed separately?</strong></p>
+            <p>
+                LumaChords uses FFmpeg for high-performance video processing as an external tool. 
+                FFmpeg is a third-party multimedia framework licensed under the <strong>GNU Lesser General Public License (LGPL) version 2.1+</strong> or the <strong>GNU General Public License (GPL) version 2+</strong>, depending on how it is configured and which components are included. 
+                FFmpeg is not included and distributed with LumaChords.
+                LumaChords does not distribute FFmpeg binaries. Users (you) are responsible for installing 
+                FFmpeg independently according to their requirements.
+            </p>
+            <p>Due to licensing restrictions and software patent considerations, we cannot bundle FFmpeg directly with our application or distribute it from our website. Instead, we provide these instructions to help you download and install FFmpeg separately from trusted sources.</p>
+            <p>Once installed, FFmpeg will enable support for additional video formats and the ability to more performant processing.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Installation Instructions</h2>
+            <p>Choose the installation method that works best for your operating system.</p>
+            <p>Once the installation is complete, LumaChords will detect the binary automatically.</p>
+
+            <!-- ######### -->
+
+            <h3>Windows (x64 &amp; ARM64)</h3>
+            <div id="win-winget" class="install-option">
+                <h4>Option 1: Winget Package Manager (Recommended)</h4>
+                <p>If you have Winget installed:</p>
+                <pre><code>winget install ffmpeg</code></pre>
+                <p>If you haven't Winget installed and you got error, you can install it first through checking out <a href="https://apps.microsoft.com/detail/9nblggh4nns1" target="_blank">Microsoft's AppInstaller</a>.</p>
+            </div>
+
+            <div id="win-choco" class="install-option">
+                <h4>Option 2: Chocolatey Package Manager</h4>
+                <p>If you have <a href="https://chocolatey.org/" target="_blank">Chocolatey</a> installed:</p>
+                <pre><code>choco install ffmpeg</code></pre>
+            </div>
+
+            <div id="win-scoop" class="install-option">
+                <h4>Option 3: Scoop Package Manager</h4>
+                <p>If you use <a href="https://scoop.sh/" target="_blank">Scoop</a>:</p>
+                <pre><code>scoop install ffmpeg</code></pre>
+            </div>
+
+            <div id="win-direct" class="install-option">
+                <h4>Option 4: Direct Download</h4>
+                <p>Download Windows builds from the official FFmpeg website or trusted third-party providers:</p>
+                <ul>
+                    <li><a href="https://ffmpeg.org/download.html#build-windows" target="_blank">Official FFmpeg Downloads</a></li>
+                    <li><a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank">Gyan.dev FFmpeg Builds</a> (Recommended for Windows)</li>
+                </ul>
+            </div>
+
+            <div id="win-source" class="install-option">
+                <h4>Option 5: Build Yourself from Source Code</h4>
+                <p>If you are familiar with this method, you can compile FFmpeg from its source code:</p>
+                <ul>
+                    <li><a href="https://trac.ffmpeg.org/wiki/CompilationGuide#Windows" target="_blank">Official FFmpeg Compilation Guide</a></li>
+                </ul>
+            </div>
+
+            <!-- ######### -->
+
+            <h3>Linux</h3>
+            <div id="lin-apt" class="install-option">
+                <h4>Ubuntu / Debian / Mint:</h4>
+                <pre><code>sudo apt update && sudo apt install ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-dnf" class="install-option">
+                <h4>Fedora:</h4>
+                <pre><code>sudo dnf install ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-yum" class="install-option">
+                <h4>RHEL / CentOS / AlmaLinux / Rocky Linux:</h4>
+                <pre><code>sudo yum install ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-zypper" class="install-option">
+                <h4>openSUSE (Leap / Tumbleweed) / SUSE Linux Enterprise (SLES):</h4>
+                <pre><code>sudo zypper install ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-pacman" class="install-option">
+                <h4>Arch Linux:</h4>
+                <pre><code>sudo pacman -S ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-apk" class="install-option">
+                <h4>Alpine Linux:</h4>
+                <pre><code>sudo apk add ffmpeg</code></pre>
+            </div>
+
+            <div id="lin-direct" class="install-option">
+                <h4>Other Distributions:</h4>
+                <p>FFmpeg is available in most Linux distribution repositories. Please consult your distribution's documentation or visit the <a href="https://ffmpeg.org/download.html#build-linux" target="_blank">official FFmpeg website</a>.</p>
+            </div>
+
+            <div id="lin-source" class="install-option">
+                <h4>Option: Build Yourself from Source Code</h4>
+                <p>If you are familiar with this method, you can compile FFmpeg from its source code:</p>
+                <ul>
+                    <li><a href="https://trac.ffmpeg.org/wiki/CompilationGuide#Linux" target="_blank">Official FFmpeg Compilation Guide</a></li>
+                </ul>
+            </div>
+
+
+            <!-- ######### -->
+
+            <h3>macOS (Intel &amp; Apple Silicon)</h3>
+            <div id="mac-brew" class="install-option">
+                <h4>Option 1: Homebrew (Recommended)</h4>
+                <p>If you have <a href="https://brew.sh/" target="_blank">Homebrew</a> installed already, this is the easiest method:</p>
+                <pre><code>brew install ffmpeg</code></pre>
+                <p>If you haven't <a href="https://brew.sh/" target="_blank">Homebrew</a> installed and you got error, you can install it first through running this command on your Terminal.app:</p>
+                <pre><code></code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+                <p>Then after having Homebrew, run this command to install FFmpeg:</p>
+                <pre><code>brew install ffmpeg</code></pre>
+            </div>
+
+            <div id="mac-macports" class="install-option">
+                <h4>Option 2: MacPorts</h4>
+                <p>If you use <a href="https://www.macports.org/" target="_blank">MacPorts</a>:</p>
+                <pre><code>sudo port install ffmpeg</code></pre>
+            </div>
+
+            <div id="mac-direct" class="install-option">
+                <h4>Option 3: Direct Download</h4>
+                <p>Download macOS builds from the official FFmpeg website or trusted third-party providers:</p>
+                <ul>
+                    <li><a href="https://ffmpeg.org/download.html#build-mac" target="_blank">Official FFmpeg Downloads</a></li>
+                    <li><a href="https://osxexperts.net/" target="_blank">OSXExperts.NET FFmpeg Builds</a> (Recommended for macOS Apple Silicon) (you need to download FFmpeg and FFprobe executables separately)</li>
+                </ul>
+            </div>
+
+            <div id="mac-source" class="install-option">
+                <h4>Option 4: Build Yourself from Source Code</h4>
+                <p>If you are familiar with this method, you can compile FFmpeg from its source code:</p>
+                <ul>
+                    <li><a href="https://trac.ffmpeg.org/wiki/CompilationGuide#macOS" target="_blank">Official FFmpeg Compilation Guide</a></li>
+                </ul>
+            </div>
+
+            <!-- ######### -->
+        </div>
+
+        <div class="content-section">
+            <h2>Verifying Installation</h2>
+            <p>To verify that FFmpeg is installed correctly, open a terminal or command prompt and run:</p>
+            <pre><code>ffmpeg -version</code></pre>
+            <p>You should see version information and configuration details. If you see an error, FFmpeg may not be properly installed or added to your system's PATH.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Troubleshooting</h2>
+            
+            <h3>Application Can't Find FFmpeg</h3>
+            <p>If our application cannot detect FFmpeg after installation:</p>
+            <ul>
+                <li>Restart the application</li>
+                <li>Check the application's preferences or settings for an option to manually specify the FFmpeg location</li>
+                <li>Ensure FFmpeg is in your system's PATH environment variable</li>
+            </ul>
+
+            <h3>Permission Issues (macOS)</h3>
+            <p>On macOS, you may need to grant permission for the application to access FFmpeg:</p>
+            <ul>
+                <li>Go to System Settings -> Privacy & Security -> Automation</li>
+                <li>Ensure the application has necessary permissions</li>
+            </ul>
+
+            <h3>Still Having Issues?</h3>
+            <p>If you continue to experience problems, please:</p>
+            <ul>
+                <li>Consult the <a href="https://ffmpeg.org/documentation.html" target="_blank">FFmpeg documentation</a></li>
+                <li>Visit <a href="https://github.com/adalkiran/lumachords/issues/new" target="_blank">our project's issue tracker for support</a></li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="https://ffmpeg.org/" target="_blank">Official FFmpeg Website</a></li>
+                <li><a href="https://ffmpeg.org/documentation.html" target="_blank">FFmpeg Documentation</a></li>
+                <li><a href="https://ffmpeg.org/legal.html" target="_blank">FFmpeg License and Legal Information</a></li>
+                <li><a href="https://trac.ffmpeg.org/wiki" target="_blank">FFmpeg Wiki</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>This software does not include FFmpeg. FFmpeg is a separate project licensed under the LGPL or GPL.</p>
+            <p>FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.</p>
+            <p>For more information about FFmpeg licensing, please visit <a href="https://ffmpeg.org/legal.html" target="_blank">https://ffmpeg.org/legal.html</a></p>
+        </div>
+    </div>
+</body>
+</html>

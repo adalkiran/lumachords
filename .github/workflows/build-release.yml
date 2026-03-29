@@ -1,0 +1,148 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+        - 'docs/**'
+        - 'data/**'        
+  pull_request:
+    branches:
+      - 'main'
+
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: LumaChords
+
+jobs:
+  build:
+    name: ${{ matrix.platform.name }}
+    runs-on: ${{ matrix.platform.runs_on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - name: windows-amd64
+            target: windows-amd64
+            runs_on: windows-latest
+            python_arch: x64
+            container: ""
+          - name: linux-amd64
+            target: linux-amd64
+            runs_on: ubuntu-latest
+            python_arch: x64
+            container: ""
+          - name: linux-arm64
+            target: linux-arm64
+            runs_on: ubuntu-24.04-arm
+            python_arch: arm64
+            container: ""
+          - name: darwin-amd64
+            target: apple-darwin-amd64
+            runs_on: macos-15-intel
+            python_arch: x64
+            container: ""
+          - name: darwin-arm64
+            target: apple-darwin-arm64
+            runs_on: macos-15
+            python_arch: arm64
+            container: ""
+
+    container: ${{ matrix.platform.container != '' && matrix.platform.container || null }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: matrix.platform.container == ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: ${{ matrix.platform.python_arch }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Linting
+        run: |
+          uv run python -m compileall -q lumachords tests
+
+      - name: Test
+        run: uv run pytest -v
+
+      - name: Build with PyInstaller
+        run: uv run pyinstaller -y --clean --noconfirm lumachords.spec
+
+      - name: Package artifact (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          $archive = "dist\${{ env.APP_NAME }}-${{ matrix.platform.target }}.zip"
+          Compress-Archive -Path "dist\*" -DestinationPath $archive -Force
+
+      - name: Package artifact (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          cd dist
+          zip -qry -9 "${APP_NAME}-${{ matrix.platform.target }}.zip" . -x "__MACOSX/*" ".DS_Store"
+
+      # To check the contents of the generated .zip file.
+      # - name: List zip contents (Windows)
+      #   if: runner.os == 'Windows'
+      #   run: |
+      #     $archive = "dist\${{ env.APP_NAME }}-${{ matrix.platform.target }}.zip"
+
+      #     Add-Type -AssemblyName System.IO.Compression.FileSystem
+      #     $z = [System.IO.Compression.ZipFile]::OpenRead($archive)
+      #     $z.Entries | Select-Object FullName, Length | Format-Table -AutoSize
+      #     $z.Dispose()
+
+      # - name: List zip contents (Unix)
+      #   if: runner.os != 'Windows'
+      #   run: |
+      #     cd dist
+      #     unzip -l "${APP_NAME}-${{ matrix.platform.target }}.zip"
+
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform.name }}
+          path: dist/${{ env.APP_NAME }}-${{ matrix.platform.target }}.zip
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: set env
+        run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: release-${{ github.run_number }}-${{ env.NOW }}
+          files: release-artifacts/*.zip
+          fail_on_unmatched_files: true
+          body: |
+            Release ${{ github.run_number }}-${{ env.NOW }}. You can download the executable file that is suitable for your system, or complete source code.
+            However, your operating system (e.g. MacOS) may not allow you to run the executable files downloaded from Github directly, because it may require notarization/signing of executables.
+            This is not an issue to fix for this project, if you tried and failed, then you can clone this repository and run it by yourself on your machine.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

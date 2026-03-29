@@ -1,0 +1,62 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: lumachords",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "lumachords",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: lumachords (DEMO)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "lumachords",
+            "console": "integratedTerminal",
+            "args": ["--demo"],
+            "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: lumachords (DEMO HEADLESS)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "lumachords",
+            "console": "integratedTerminal",
+            "args": ["--demo", "--mode=headless"],
+            "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: lumachords (DEMO OPENCV)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "lumachords",
+            "console": "integratedTerminal",
+            "args": ["--demo", "--video-backend=opencv"],
+            "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: lumachords (DEMO HEADLESS OPENCV)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "lumachords",
+            "console": "integratedTerminal",
+            "args": ["--demo",  "--mode=headless", "--video-backend=opencv"],
+            "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "env": { "PYTHONPATH": "${workspaceFolder}" },
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}

@@ -1,0 +1,103 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumachords"
+dynamic = ["version"]
+description = "Add your description here"
+license = "Apache-2.0"
+license-files = [ "LICENSE", "THIRD_PARTY_LICENSES.txt" ]
+authors = [
+    {name = "Adil Alper DALKIRAN"},
+]
+readme = "README.md"
+requires-python = "==3.12.*"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 3 - Alpha",
+
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+
+
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications",
+
+    "Framework :: AsyncIO",
+    "Framework :: Jupyter",
+    "Framework :: Matplotlib",
+
+    "Topic :: Artistic Software",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Video :: Conversion",
+    "Topic :: Multimedia :: Graphics :: Viewers",
+
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+
+dependencies = [
+    "crossfiledialog>=1.1.0",
+    "ffmpeg-python>=0.2.0",
+    "matplotlib>=3.10.8",
+    "mido>=1.3.3",
+    "numpy>=2.4.2",
+    "opencv-python-headless==4.10.0.84",
+    "pygame>=2.6.1",
+    "pygame-menu>=4.5.2",
+    "pyopengl>=3.1.10",
+    "pyopengl-accelerate>=3.1.10; (sys_platform != 'linux' or platform_machine == 'x86_64') and ((sys_platform != 'darwin' or platform_machine == 'arm64'))",
+    "pyfluidsynth>=1.3.4; sys_platform != 'win32'",
+    "platformdirs>=4.4.0",
+    "python-rtmidi>=1.5.8",
+    "pyvips[binary]>=3.1.1",
+    "tqdm>=4.67.3",
+    "yt-dlp>=2026.1.1",
+    "verovio>=6.0.1",
+    "pywin32>=311; sys_platform == 'win32'",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.18.0",
+    "pytest>=9.0.2",
+]
+
+[project.scripts]
+lumachords = "lumachords.__main__:main"
+
+[project.urls]
+"Homepage" = "https://github.com/adalkiran/lumachords"
+"Source" = "https://github.com/adalkiran/lumachords"
+"Bug Tracker" = "https://github.com/adalkiran/lumachords/issues"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["lumachords", "lumachords.*"]
+exclude = ["data", "data.*", "experiment_samples", "experiment_samples.*", "resources", "resources.*"]
+
+[tool.setuptools.data-files]
+resources = [
+    "resources/*",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.txt",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "lumachords.__version__"}
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.ruff.lint]
+extend-ignore = ["E702", "E722", "F405", "F403"] 
