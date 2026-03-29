@@ -1,0 +1,72 @@
+# The sample images listed in this file are captured/extracted frames from third-party
+# YouTube videos. They are included in this repository only for limited,
+# non-commercial research, testing, and documentation purposes.
+#
+# Copyright in the underlying video content remains with the respective rights
+# holders. This file provides provenance and attribution only. It does not mean
+# the source videos or captured/extracted frames are licensed for general reuse,
+# redistribution, or commercial use.
+#
+# If you want to reuse any of these materials, obtain permission from the
+# relevant rights holder or rely on another valid legal basis.
+#
+# If you are content owner or a rights holder and want any listed material reviewed or removed,
+# please use the maintainer contact information (LinkedIn profile link) provided in the repository
+# README file/homepage or file an issue in the project repository.
+
+# Continuity
+
+- tests/data/continuity/test_bittersuite
+    YouTube link: https://www.youtube.com/watch?v=0yljm2qtUb8
+    Channel: Piano Pop Tv
+    Title: Billie Eilish - BITTERSUITE - Full Version (Piano Tutorial)
+
+- tests/data/continuity/test_gulpembe
+    YouTube link: https://www.youtube.com/watch?v=NGbKJ0mS3bQ
+    Channel: Piano by VN
+    Title: Konser piyanisti GÜLPEMBE çalarsa :)
+
+- tests/data/continuity/test_rondo_alla_turca
+    YouTube link: https://www.youtube.com/watch?v=aeEmGvm7kDk
+    Channel: Rousseau
+    Title: Mozart - Rondo Alla Turca (Turkish March)
+
+
+# Threshold
+- tests/data/threshold/shot_01_alman_dansi_sparsebg_strong_longline_letters.png
+- tests/data/threshold/shot_04_alman_dansi_sparsebg_strong_longline.png
+- tests/data/threshold/shot_08_alman_dansi_sparseng_strong_longline.png
+- tests/data/threshold/shot_11_alman_dansi_sparsebg_strong_longline_letters.png
+    YouTube link: https://www.youtube.com/watch?v=79MFcQJizto
+    Channel: KolayNota
+    Title: Haydn - Alman Dansı - Piyano
+
+- tests/data/threshold/shot_06_senorita_sparsebg_smoke_letters.png
+    YouTube link: https://www.youtube.com/watch?v=QU7BZhDZ8zY
+    Channel: Piano Go Life
+    Title: Shawn Mendes, Camila Cabello - Señorita Piano Tutorial
+
+- tests/data/threshold/shot_07_gulpembe_sparsebg_strong_longline.png
+- tests/data/threshold/shot_12_gulpembe_sparsebg_strong_longline.png
+- tests/data/threshold/shot_13_gulpembe_sparsebg_strong_longline.png
+- tests/data/threshold/shot_14_gulpembe_sparsebg_strong_longline.png
+- tests/data/threshold/shot_15_gulpembe_sparsebg_strong_longline.png
+- tests/data/threshold/shot_16_gulpembe_sparsebg_strong_longline.png
+    YouTube link: https://www.youtube.com/watch?v=NGbKJ0mS3bQ
+    Channel: Piano by VN
+    Title: Konser piyanisti GÜLPEMBE çalarsa :)
+
+- tests/data/threshold/shot_09_santa_lucia_texturebg_smoke.png
+    YouTube link: https://www.youtube.com/watch?v=SjZxAaD1I10
+    Channel: It's Piano
+    Title: Santa Lucia - Teodoro Cottrau | Traditional Neapolitan Song | Piano Solo Synthesia Tutorial
+
+- tests/data/threshold/shot_10_bittersuite_sparseng_no_longline.png
+    YouTube link: https://www.youtube.com/watch?v=0yljm2qtUb8
+    Channel: Piano Pop Tv
+    Title: Billie Eilish - BITTERSUITE - Full Version (Piano Tutorial)
+
+- tests/data/threshold/shot_03_one_mans_dream_texturebg_smoke.png
+    YouTube link: https://www.youtube.com/watch?v=VuRKmmpV35w
+    Channel: It's Piano
+    Title: One Man's Dream - Yanni | Piano | Synthesia | Relaxing music
