@@ -1,10 +1,8 @@
-# <img src="resources/icon_64x64.png" width="24"></img> LumaChords
+# <img src="https://raw.githubusercontent.com/adalkiran/lumachords/develop/resources/icon_64x64.png" width="24"></img> LumaChords
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/alper-dalkiran/)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=X&logoColor=white&style=flat-square)](https://x.com/aalperdalkiran)
-<!--
 ![HitCount](https://hits.dwyl.com/adalkiran/lumachords.svg?style=flat-square)
--->
 ![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)

@@ -100,7 +100,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--auto-timing",
         action=argparse.BooleanOptionalAction,
-        default=True,
+        default=False,
         help="Enable or disable automatic timing estimation (time signature + BPM).",
     )
     parser.add_argument("--time-sync", action="store_true", default=None)
