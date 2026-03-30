@@ -148,7 +148,7 @@ class App:
                         continue
                     user_level_stop_event = asyncio.Event()
                     progress_overlay = OverlayManager.show_progress(
-                        "Downloading YouTube video...",
+                        f"Checking for YouTube video: {self.settings.youtube_input}...",
                         user_level_stop_event,
                     )
                     try:
@@ -156,6 +156,8 @@ class App:
                             YoutubeDownloadService.download_youtube_video,
                             self.settings.youtube_input,
                             FfmpegVideoUtils.has_ffmpeg_binary(),
+                            user_level_stop_event,
+                            progress_callback=lambda download_percentage, _: progress_overlay.set_progress(download_percentage, message=f"Downloading YouTube video: {self.settings.youtube_input}...")
                         )
                         self.settings.input_video_path = video_path
                         OverlayManager.show_toast(
@@ -346,6 +348,8 @@ class App:
                     YoutubeDownloadService.download_youtube_video,
                     youtube_input,
                     FfmpegVideoUtils.has_ffmpeg_binary(),
+                    self.app_level_stop_event,
+                    progress_callback=None,
                 )
                 self.settings.input_video_path = video_path
                 print(f"YouTube download completed: {video_path}" if not cache_used else f"Using YouTube video from cache: {video_path}")

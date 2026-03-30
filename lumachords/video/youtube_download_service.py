@@ -1,8 +1,14 @@
 from __future__ import annotations
 
+from asyncio import Event
+from collections.abc import Callable
 from pathlib import Path
 import re
 from urllib.parse import parse_qs, urlparse
+
+
+class UserException(Exception):
+    pass
 
 
 class YoutubeDownloadService:
@@ -78,13 +84,37 @@ class YoutubeDownloadService:
         return (mp4_file or matches[0]).resolve()
 
     @staticmethod
-    def download_youtube_video(value: str, has_ffmpeg_binary: bool, output_dir: str = "data/videos/youtube") -> str:
+    def on_progress(stop_event: Event, status: dict, progress_callback: Callable[[float, dict], None] = None) -> None:
+        if stop_event.is_set():
+            raise UserException("Download cancelled by user.")
+        if not progress_callback:
+            return
+        download_status = status.get("status")
+        if download_status == "downloading":
+            pct = status.get("_percent")
+            if pct is None:
+                downloaded = status.get("downloaded_bytes") or 0
+                total = status.get("total_bytes") or status.get("total_bytes_estimate") or 0
+                pct = (downloaded * 100.0 / total) if total else 0.0
+            progress_callback(min(100.0, max(0.0, float(pct))), status)
+        elif download_status == "finished":
+            progress_callback(100.0, status)
+
+    @staticmethod
+    def download_youtube_video(
+        value: str,
+        has_ffmpeg_binary: bool,
+        stop_event: Event,
+        output_dir: str = "data/videos/youtube",
+        progress_callback: Callable[[float, dict], None] = None,
+    ) -> str:
         from yt_dlp import YoutubeDL
 
         normalized_url = YoutubeDownloadService.normalize_youtube_input(value)
         out_dir = Path(output_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
         youtube_id = __class__.extract_youtube_id(normalized_url)
+        resolved_path: Path | None = None
         try:
             path = __class__._resolve_downloaded_file(youtube_id, out_dir)
             if path.is_file():
@@ -110,6 +140,7 @@ class YoutubeDownloadService:
             "restrictfilenames": True,
             "remote_components": ["ejs:github"],
             "js_runtimes": {"deno": {}},
+            "progress_hooks": [lambda status: __class__.on_progress(stop_event, status, progress_callback)],
         }
         try:
             with YoutubeDL(ydl_opts) as ydl:
@@ -133,5 +164,17 @@ class YoutubeDownloadService:
                     info = entries[0]
                 path = __class__._resolve_downloaded_file(info, out_dir)
                 return str(path), False
+        except UserException as exc:
+            try:
+                # When download is interrupted or cancelled by the user, delete the downloaded file
+                resolved_path = __class__._resolve_downloaded_file(youtube_id, out_dir)
+                if resolved_path and resolved_path.is_file():
+                    try:
+                        resolved_path.unlink()
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+            raise exc
         except Exception as exc:
             raise RuntimeError(f"YouTube download failed. You can manually download the video using tools like yt-dlp and open the file with LumaChords.\n{exc}") from exc
