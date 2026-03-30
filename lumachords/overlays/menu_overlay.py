@@ -170,10 +170,22 @@ class MenuOverlay(BaseOverlay):
                         selected_widget.set_value(current + text)
                         selected_widget.change()
                         return True
-            processed = self.menu.update([event])
+            try:
+                processed = self.menu.update([event])
+            except RecursionError:
+                # This try-catch block exists because of the text inputs (added using self.menu.add.text_input) cause max recursion limit exceeded
+                # exception when pressed arrow keys on the keyboard while a text input box is focused.
+                # Seems like it's a bug of pygame-menu, because it thinks the text input is in text seletction mode, but it's empty.
+                processed = False
             if event.type == pygame.KEYDOWN and event.key in (pygame.K_ESCAPE, pygame.K_F1):
-                self.toggle()
-                processed = True
+                if self.menu_type != MenuType.MENU_START:
+                    self.toggle()
+                    processed = True
+                elif self.confirm_menu.is_enabled():
+                    self.confirm_menu.disable()
+                    self.menu.full_reset()
+                    self.menu.enable()
+                    processed = True
             if self.menu_type == MenuType.MENU_FFMPEG and event.type == pygame.WINDOWFOCUSGAINED:
                 try:
                     retry_search_ffmpeg(self, show_error=False)
@@ -231,7 +243,7 @@ class MenuOverlay(BaseOverlay):
         self.menu.draw(self.surface)
         return self.surface
     
-    def call_wrapped_action(self, action_fn: Callable, args: any, immediate=False, toggle_menu=False):
+    def call_wrapped_action(self, action_fn: Callable, args: any, kwargs: dict, immediate=False, toggle_menu=False):
         if not action_fn:
             return
         action_result = action_fn(*args)
@@ -251,7 +263,7 @@ class MenuOverlay(BaseOverlay):
     def wrap_action(self, action_fn: Callable, immediate=False, toggle_menu=False):
         if not action_fn:
             return
-        return lambda *args: self.call_wrapped_action(action_fn, args, immediate, toggle_menu)
+        return lambda *args, **kwargs: self.call_wrapped_action(action_fn, args, kwargs, immediate, toggle_menu)
 
     def toggle_gui_mode(self, value: bool) -> None:
         self.settings.app_mode = AppMode.GUI_ADVANCED if value else AppMode.GUI_BASIC

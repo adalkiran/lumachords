@@ -3,7 +3,7 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/alper-dalkiran/)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=X&logoColor=white&style=flat-square)](https://x.com/aalperdalkiran)
 ![HitCount](https://hits.dwyl.com/adalkiran/lumachords.svg?style=flat-square)
-![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
+![Python Version](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
 
@@ -194,7 +194,7 @@ The current headlines are:
 
 You are welcome to [create issues](https://github.com/adalkiran/lumachords/issues/new) to report any bugs or problems you encounter.
 
-If you liked and found my project helpful and valuable, I would greatly appreciate it if you could give the repo a star :star: on GitHub. Your support and feedback not only help the project improve and grow but also contribute to reaching a wider audience within the community. Additionally, it motivates me to create even more innovative projects in the future.
+If you liked and found my project helpful and valuable, I would greatly appreciate it if you could give the repo a star ⭐ on GitHub. Your support and feedback not only help the project improve and grow but also contribute to reaching a wider audience within the community. Additionally, it motivates me to create even more innovative projects in the future.
 
 ## 📖 **REFERENCES**
 

@@ -14,7 +14,7 @@ from lumachords.ui_types import UICommand
 from lumachords.video import YoutubeDownloadService
 
 from lumachords.gui.file_dialog_utils import FileDialogUtils
-from .common import CARD_BORDER, CARD_TITLE, MUTED, add_button, card_width, create_card, muted_font_size, pack_card_label
+from .common import CARD_BORDER, CARD_TITLE, CURSOR_COLOR, CURSOR_SELECTION_COLOR, MUTED, add_button, card_width, create_card, muted_font_size, pack_card_label
 
 if TYPE_CHECKING:  # pragma: no cover
     from lumachords.overlays.menu_overlay import MenuOverlay
@@ -34,7 +34,9 @@ class MenuStartBuilder:
         self.menu_overlay = menu_overlay
         self.menu = menu
         self.file_input_row = None
+        self.youtube_input_row = None
         self.youtube_input_widget = None
+        self.youtube_input_path_label = None
         self.youtube_help_label = None
         self.transpose_octaves_widget = None
         self.split_note_name_widget = None
@@ -44,6 +46,11 @@ class MenuStartBuilder:
         self.midirt_use_pedal_widget = None
         self.midi_rt_pref_row = None
         self.last_loaded_profile_key = None
+
+        theme = self.menu.get_theme()
+        theme.cursor_color = CURSOR_COLOR
+        theme.cursor_selection_color = CURSOR_SELECTION_COLOR
+
 
     @staticmethod
     def open_url(url: str) -> None:
@@ -62,6 +69,15 @@ class MenuStartBuilder:
             return path
         keep = max_len - 3
         return f"...{path[-keep:]}" if keep > 0 else "..."
+
+    def format_youtube_label(self, value: str) -> str:
+        youtube_input = (value or "").strip()
+        if not youtube_input:
+            return "Not set"
+        try:
+            return YoutubeDownloadService.normalize_youtube_input(youtube_input)
+        except Exception:
+            return "Invalid YouTube URL or video ID"
 
     def _muted_font_size(self) -> int:
         return muted_font_size(self.menu)
@@ -101,8 +117,12 @@ class MenuStartBuilder:
         use_youtube = self.menu_overlay.settings.input_source == "youtube"
         if self.file_input_row:
             self.file_input_row.hide() if use_youtube else self.file_input_row.show()
+        if self.youtube_input_row:
+            self.youtube_input_row.show() if use_youtube else self.youtube_input_row.hide()
         if self.youtube_input_widget:
             self.youtube_input_widget.show() if use_youtube else self.youtube_input_widget.hide()
+        if self.youtube_input_path_label:
+            self.youtube_input_path_label.show() if use_youtube else self.youtube_input_path_label.hide()
         if self.youtube_help_label:
             self.youtube_help_label.show() if use_youtube else self.youtube_help_label.hide()
 
@@ -184,6 +204,8 @@ class MenuStartBuilder:
 
     def on_youtube_input_change(self, value: str) -> None:
         self.menu_overlay.settings.youtube_input = value.strip()
+        if self.youtube_input_path_label:
+            self.youtube_input_path_label.set_title(f"Selected: {self.format_youtube_label(self.menu_overlay.settings.youtube_input)}")
         self.load_input_profile("youtube", self.menu_overlay.settings.youtube_input)
         self.menu_overlay.force_render = True
 
@@ -356,7 +378,7 @@ class MenuStartBuilder:
         card = self._create_card(
             "Source",
             "Pick a local video file or paste a YouTube link as a piano tutorial source video.",
-            236,
+            246,
         )
 
         source_toggle = self.menu.add.toggle_switch(
@@ -401,17 +423,50 @@ class MenuStartBuilder:
         self.menu_overlay.input_path_label = self.file_input_row.get_widgets()[-1]
         card.pack(self.file_input_row, align=pygame_menu.locals.ALIGN_LEFT)
 
+        youtube_row_width = self._card_width() - 28
+        youtube_label_width = max(140, int(youtube_row_width * 0.34))
+        youtube_input_width = max(120, youtube_row_width - youtube_label_width - 12)
+        youtube_row = self.menu.add.frame_h(youtube_row_width, 40, margin=(0, 0))
+        youtube_row._relax = True
+        youtube_row._pack_margin_warning = False
+        youtube_row.pack(
+            self.menu.add.label("YouTube Link or Video ID: ", font_color=CARD_TITLE, margin=(0, 0)),
+            align=pygame_menu.locals.ALIGN_LEFT,
+        )
+        self.youtube_input_row = youtube_row
+        youtube_input_container = self.menu.add.frame_v(youtube_input_width, 40, margin=(0, 0))
+        youtube_input_container._relax = True
+        youtube_input_container._pack_margin_warning = False
         self.youtube_input_widget = self.menu.add.text_input(
-            "YouTube Link Or Video ID here: ",
+            "",
             default=self.menu_overlay.settings.youtube_input or "",
             maxchar=300,
+            maxwidth=youtube_input_width,
+            maxwidth_dynamically_update=False,
             copy_paste_enable=True,
-            repeat_keys=False,
+            input_underline_len=1,
             onchange=self.menu_overlay.wrap_action(self.on_youtube_input_change, immediate=False, toggle_menu=False),
             textinput_id="youtube_input",
             margin=(0, 0),
         )
-        card.pack(self.youtube_input_widget, align=pygame_menu.locals.ALIGN_LEFT)
+        self.youtube_input_widget.set_attribute("ignore_scroll_to_widget", True)
+        try:
+            self.youtube_input_widget.set_border(1, CARD_BORDER)
+        except Exception:
+            pass
+        youtube_input_container.pack(self.youtube_input_widget, align=pygame_menu.locals.ALIGN_LEFT)
+        youtube_row.pack(youtube_input_container, align=pygame_menu.locals.ALIGN_LEFT)
+        card.pack(youtube_row, align=pygame_menu.locals.ALIGN_LEFT)
+        card.pack(self.menu.add.vertical_margin(8), align=pygame_menu.locals.ALIGN_LEFT)
+        self.youtube_input_path_label = self.menu.add.label(
+            f"Selected: {self.format_youtube_label(self.menu_overlay.settings.youtube_input)}",
+            max_char=max(70, path_label_max_len + 24),
+            font_color=MUTED,
+            align=pygame_menu.locals.ALIGN_LEFT,
+            font_size=self._muted_font_size(),
+            margin=(0, 0),
+        )
+        card.pack(self.youtube_input_path_label, align=pygame_menu.locals.ALIGN_LEFT)
         self.youtube_help_label = self.menu.add.label(
             "Paste a full YouTube link or only the video ID.",
             max_char=70,
