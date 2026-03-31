@@ -239,7 +239,7 @@ class Window:
 
     def draw_note_result(self) -> None:
         # RENDER MIDI EVENTS TEXT
-        surf_rgba, tw, th = WindowGLHelper.render_multiline_text(self.state.midi_events_str, self.title_font, (255, 255, 255), min_line_count=8)
+        surf_rgba, tw, th = WindowGLHelper.render_multiline_text(self.state.midi_events_str, self.title_font, (255, 255, 255), min_line_count=12)
         midi_events_panel = self.panels[ProcessingState.IDX_MIDI_EVENTS]
         midi_events_panel.viewport.y = self.wdef.window_size[1] - self.wdef.gap // 2 - th
         midi_events_panel.update_size(tw, th)

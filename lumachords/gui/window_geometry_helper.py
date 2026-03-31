@@ -89,10 +89,10 @@ class Panel:
             my_vp.y = ref_vp.y
         elif self.rule == PositionRule.BELOW:
             my_vp.x = ref_vp.x
-            my_vp.y = ref_vp.y - ref_h - my_h - self.gap
+            my_vp.y = ref_vp.y - my_h - self.gap
         elif self.rule == PositionRule.ABOVE:
             my_vp.x = ref_vp.x
-            my_vp.y = ref_vp.y + ref_h + my_h + self.gap
+            my_vp.y = ref_vp.y + ref_h + self.gap
         elif self.rule == PositionRule.CENTER_IN:
             my_vp.x = int(ref_vp.x + (ref_w - my_w) // 2)
             my_vp.y = int(ref_vp.y + (ref_h - my_h) // 2)

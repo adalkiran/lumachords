@@ -34,6 +34,8 @@ class MenuStartBuilder:
         self.menu_overlay = menu_overlay
         self.menu = menu
         self.file_input_row = None
+        self.source_file_button = None
+        self.source_youtube_button = None
         self.youtube_input_row = None
         self.youtube_input_widget = None
         self.youtube_input_path_label = None
@@ -93,6 +95,27 @@ class MenuStartBuilder:
 
     def _make_button(self, title: str, action, **kwargs):
         return add_button(self.menu, title, action, **kwargs)
+
+    def _source_button_title(self, source: str) -> str:
+        return f"{'(o)' if self.menu_overlay.settings.input_source == source else '(  )'} {'YOUTUBE' if source == 'youtube' else 'FILE'}"
+
+    def _source_button_color(self, source: str):
+        return self.menu.get_theme().selection_color if self.menu_overlay.settings.input_source == source else MUTED
+
+    def _update_source_button_style(self, button, source: str) -> None:
+        if not button:
+            return
+        font_info = button.get_font_info()
+        button.set_font(
+            font_info["name"],
+            font_info["size"],
+            self._source_button_color(source),
+            font_info["selected_color"],
+            font_info["readonly_color"],
+            font_info["readonly_selected_color"],
+            font_info["background_color"],
+            antialias=font_info["antialias"],
+        )
 
     # -------------- START MENU --------------
 
@@ -193,8 +216,14 @@ class MenuStartBuilder:
 
     # -------------- START MENU ACTION EVENTS --------------
 
-    def on_input_source_change(self, value: bool) -> None:
-        self.menu_overlay.settings.input_source = "youtube" if value else "file"
+    def on_input_source_change(self, value: str) -> None:
+        self.menu_overlay.settings.input_source = "youtube" if value == "youtube" else "file"
+        if self.source_file_button:
+            self.source_file_button.set_title(self._source_button_title("file"))
+            self._update_source_button_style(self.source_file_button, "file")
+        if self.source_youtube_button:
+            self.source_youtube_button.set_title(self._source_button_title("youtube"))
+            self._update_source_button_style(self.source_youtube_button, "youtube")
         if self.menu_overlay.settings.input_source == "youtube":
             self.load_input_profile("youtube", self.menu_overlay.settings.youtube_input)
         else:
@@ -381,15 +410,27 @@ class MenuStartBuilder:
             246,
         )
 
-        source_toggle = self.menu.add.toggle_switch(
-            "Source Type",
-            default=(self.menu_overlay.settings.input_source == "youtube"),
-            state_text=("FILE", "YOUTUBE"),
-            onchange=self.menu_overlay.wrap_action(self.on_input_source_change, immediate=False, toggle_menu=False),
-            toggleswitch_id="input_source",
-            margin=(0, 0),
+        source_row = self.menu.add.frame_h(self._card_width() - 28, 36, margin=(0, 0))
+        source_row._relax = True
+        source_row._pack_margin_warning = False
+        source_row.pack(self.menu.add.label("Source Type", font_color=CARD_TITLE, margin=(0, 0)), align=pygame_menu.locals.ALIGN_LEFT)
+        self.source_file_button = self._make_button(
+            self._source_button_title("file"),
+            self.menu_overlay.wrap_action(lambda: self.on_input_source_change("file"), immediate=False, toggle_menu=False),
+            font_color=self._source_button_color("file"),
+            margin=(18, 0),
         )
-        card.pack(source_toggle, align=pygame_menu.locals.ALIGN_LEFT)
+        self.source_file_button.set_border(0, CARD_BORDER)
+        source_row.pack(self.source_file_button, align=pygame_menu.locals.ALIGN_LEFT)
+        self.source_youtube_button = self._make_button(
+            self._source_button_title("youtube"),
+            self.menu_overlay.wrap_action(lambda: self.on_input_source_change("youtube"), immediate=False, toggle_menu=False),
+            font_color=self._source_button_color("youtube"),
+            margin=(10, 0),
+        )
+        self.source_youtube_button.set_border(0, CARD_BORDER)
+        source_row.pack(self.source_youtube_button, align=pygame_menu.locals.ALIGN_LEFT)
+        card.pack(source_row, align=pygame_menu.locals.ALIGN_LEFT)
 
         path_label_max_len = max(24, int(self.menu.get_width() * 0.12))
         self.file_input_row = self.menu.add.frame_v(self._card_width() - 28, 62, margin=(0, 0))
