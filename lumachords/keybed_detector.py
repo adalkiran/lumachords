@@ -854,7 +854,6 @@ class KeybedDetector:
                     self.pref,
                     evaluation_result is None,
                 ),
-                execute_async=False,
             )
             # im_vis_bgr status: Keybed rectangle drawn frame
             await self.artifact_sink.emit_lazy_async(
