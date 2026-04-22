@@ -1,11 +1,27 @@
-# <img src="https://raw.githubusercontent.com/adalkiran/lumachords/develop/resources/icon_64x64.png" width="24"></img> LumaChords
+<p align="center">
+  <a href="https://pypi.org/project/lumachords">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/adalkiran/lumachords/HEAD/docs/images/banner_dark.png">
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/adalkiran/lumachords/HEAD/docs/images/banner_light.png">
+      <img alt="LumaChords" src="https://raw.githubusercontent.com/adalkiran/lumachords/HEAD/docs/images/banner_light.png">
+    </picture>
+  </a>
+</p>
+<p align="center">
+    <em>LumaChords, computer vision powered, for turning piano tutorial videos into MIDI, MEI and musical notation videos</em>
+</p>
+<p align="center">
+    <a href="https://www.linkedin.com/in/alper-dalkiran/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square" alt="LinkedIn"></a>
+    <a href="https://x.com/aalperdalkiran"><img src="https://img.shields.io/badge/X-1DA1F2?style=for-the-badge&logo=X&logoColor=white&style=flat-square" alt="X"></a>
+    <a href="https://hits.dwyl.com/adalkiran/lumachords.svg?style=flat-square"><img src="https://hits.dwyl.com/adalkiran/lumachords.svg?style=flat-square" alt="HitCount"></a>
+    <br />
+    <a href="https://pypi.org/project/lumachords"><img src="https://img.shields.io/pypi/v/lumachords?color=blue&label=pypi%20package" alt="Package version"></a>
+    <a href="https://pypi.org/project/lumachords"><img src="https://img.shields.io/badge/python-3.12-blue" alt="Supported Python versions"></a>
+    <a href="https://img.shields.io/badge/License-Apache%202.0-blue.svg"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
+    <a href="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue"><img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Platform"></a>
+</p>
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/alper-dalkiran/)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=X&logoColor=white&style=flat-square)](https://x.com/aalperdalkiran)
-![HitCount](https://hits.dwyl.com/adalkiran/lumachords.svg?style=flat-square)
-![Python Version](https://img.shields.io/badge/python-3.12-blue)
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
+---
 
 Convert piano tutorial videos into MIDI, MEI files or videos with beautiful sheet music overlays! LumaChords uses computer vision to detect piano keys and falling notes in Synthesia-style tutorial videos, then generates musical notation synchronized with video playback.
 
@@ -17,13 +33,9 @@ LumaChords was developed primarily for personal use, educational purposes, and e
 
 LumaChords was designed and developed by a human with AI-assistance, is is not a vibecoded project. The initial commit history is intentionally clean, since the earlier draft repository had many (~250) experimental commits.
 
-<!-- TODO: Replace this placeholder with an animated GIF, for example:
-![LumaChords demo](docs/images/lumachords-demo.gif)
--->
-
-```
-TODO: Animated screenshot / demo GIF will be added here.
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/adalkiran/lumachords/HEAD/docs/images/lumachords-screen-recording.webp">
+</p>
 
 ## 💭 **WHY THIS PROJECT?**
 

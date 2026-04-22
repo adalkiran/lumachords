@@ -205,7 +205,7 @@ class Window:
             pass
 
         pygame.display.set_caption(self.title)
-        icon = pygame.image.load(Utils.resource_path("icon_64x64.png", "resources"))
+        icon = pygame.image.load(Utils.resource_path("icon_256x256.png", "resources"))
         pygame.display.set_icon(icon)
 
         self.apply_window_size(self.wdef.window_size, force=True, apply_center=True)
