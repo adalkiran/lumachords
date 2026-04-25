@@ -141,8 +141,40 @@ jobs:
           files: release-artifacts/*.zip
           fail_on_unmatched_files: true
           body: |
-            Release ${{ github.run_number }}-${{ env.NOW }}. You can download the executable file that is suitable for your system, or complete source code.
-            However, your operating system (e.g. MacOS) may not allow you to run the executable files downloaded from Github directly, because it may require notarization/signing of executables.
-            This is not an issue to fix for this project, if you tried and failed, then you can clone this repository and run it by yourself on your machine.
+            Release ${{ github.run_number }}-${{ env.NOW }}
+
+            You can download the executable package for your operating system below, or download the source code and run the project locally.
+
+            While the first execution of the downloaded executable, your operating system may warn you, because LumaChords releases are not notarized.
+            You can just follow the steps below:
+
+            ## Notes for Windows
+            Windows SmartScreen may show a warning such as **"Windows protected your PC"** because the executable is not code-signed.
+
+            If that happens:
+
+            1. Click **More info**
+            2. Click **Run anyway**
+
+            If Windows or your antivirus still blocks the app, you can also download the source code, review it, and run the project locally in your own Python environment.
+
+            ## Notes for macOS
+            macOS may block the app because it is **not notarized / not code-signed**.
+
+            If that happens:
+
+            1. Try to open the app normally once
+            2. Open **System Settings → Privacy & Security**
+            3. Look for a message saying the app was blocked
+            4. Click **Open Anyway**
+
+            If needed, you can also right-click the app and choose **Open**.
+
+            If macOS still refuses to run it, you can clone the repository and run the project locally on your machine instead.
+
+            ## Source code
+            If the prebuilt executable does not work on your system, the safest fallback is to clone the repository and run/build the project yourself.
+
+            Please see the repository documentation for setup and usage instructions.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

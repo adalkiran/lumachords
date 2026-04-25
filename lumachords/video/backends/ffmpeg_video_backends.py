@@ -19,19 +19,22 @@ def monkey_patch_subprocess():
     if sys.platform != "win32":
         return
 
+    if not isinstance(subprocess.Popen, type):
+        return
+
     _original = subprocess.Popen
 
-    def _patched_popen(*args, **kwargs):
-        kwargs.setdefault("shell", False)
-        if sys.platform == "win32":
+    class _PatchedPopen(_original):
+        def __init__(self, *args, **kwargs):
+            kwargs.setdefault("shell", False)
             kwargs["creationflags"] = kwargs.get("creationflags", 0) | subprocess.CREATE_NO_WINDOW
             si = kwargs.get("startupinfo") or subprocess.STARTUPINFO()
             si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             si.wShowWindow = 0
             kwargs["startupinfo"] = si
-        return _original(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
-    subprocess.Popen = _patched_popen
+    subprocess.Popen = _PatchedPopen
 
 monkey_patch_subprocess()
 

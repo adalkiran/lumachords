@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lumachords"
 dynamic = ["version"]
-description = "Add your description here"
+description = "Convert piano tutorial videos into MIDI, MEI files or videos with beautiful sheet music overlays! LumaChords uses computer vision to detect piano keys and falling notes in Synthesia-style tutorial videos, then generates musical notation synchronized with video playback."
 license = "Apache-2.0"
 license-files = [ "LICENSE", "THIRD_PARTY_LICENSES.txt" ]
 authors = [
