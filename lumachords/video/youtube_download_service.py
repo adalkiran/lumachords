@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 from urllib.parse import parse_qs, urlparse
 
+from lumachords.utils import Utils
+
 
 class UserException(Exception):
     pass
@@ -103,7 +105,7 @@ class YoutubeDownloadService:
     @staticmethod
     def download_youtube_video(
         value: str,
-        has_ffmpeg_binary: bool,
+        ffmpeg_binary_path: Path,
         stop_event: Event,
         output_dir: str = "data/videos/youtube",
         progress_callback: Callable[[float, dict], None] = None,
@@ -112,7 +114,11 @@ class YoutubeDownloadService:
 
         normalized_url = YoutubeDownloadService.normalize_youtube_input(value)
         out_dir = Path(output_dir)
-        out_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            out_dir.mkdir(parents=True, exist_ok=True)
+        except:
+            out_dir = Utils.config_path() / output_dir
+            out_dir.mkdir(parents=True, exist_ok=True)
         youtube_id = __class__.extract_youtube_id(normalized_url)
         resolved_path: Path | None = None
         try:
@@ -121,6 +127,11 @@ class YoutubeDownloadService:
                 return str(path), True
         except:
             pass
+
+        has_ffmpeg_binary = ffmpeg_binary_path is not None and len(str(ffmpeg_binary_path))
+        # specified_ffmpeg_location will be None if ffmpeg_binary_path contains only "ffmpeg" string.
+        # This is for PyInstaller executables which cannot access PATH environment variable.
+        specified_ffmpeg_location = str(ffmpeg_binary_path) if has_ffmpeg_binary and ffmpeg_binary_path and Path(ffmpeg_binary_path).exists() else None
 
         # Youtube stores high-res videos separately from audio (DASH). Only with some progressive low-res video files are stored video and audio together.
         # So, in some configurations (like "bestvideo*+bestaudio/best"), YoutubeDL downloads audio (with best quality) and video (with best quality) separately,
@@ -133,6 +144,7 @@ class YoutubeDownloadService:
         ydl_opts = {
             "format": "bestvideo*+bestaudio/best" if has_ffmpeg_binary else "bestvideo[vcodec!=none]",
             "merge_output_format": "mp4" if has_ffmpeg_binary else None,
+            "ffmpeg_location": specified_ffmpeg_location,
             "outtmpl": str(out_dir / "%(uploader)s - %(title)s [%(id)s].%(ext)s"),
             "noplaylist": True,
             "quiet": True,

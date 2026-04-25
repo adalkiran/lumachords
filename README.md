@@ -73,6 +73,21 @@ FFmpeg is a third-party multimedia framework that LumaChords optionally uses to 
 
 LumaChords can operate using included OpenCV video backend, but having FFmpeg is recommended. You can follow instructions at [Installing FFmpeg](https://adalkiran.github.io/lumachords/installing-ffmpeg.html) document for more information.
 
+### From Releases
+
+If you prefer using prebuilt executables, you can download them from the project's [GitHub Releases](https://github.com/adalkiran/lumachords/releases) page.
+
+* Open the latest release and check the **Assets** section.
+* Download the archive that matches your operating system and CPU architecture.
+* Extract the downloaded archive to a directory of your choice.
+* Run the included executable file from the extracted directory.
+
+The published executables are currently not code-signed. Depending on your operating system and security configuration, they may be blocked, require additional confirmation, or may not run without manual allowance. You can read and follow instructions for your operating system at details of the selected release page.
+
+If you can't execute the downloaded release, use one of the other available installation methods.
+
+Release artifacts are platform-specific, and some platforms may not be available for every version. For current platform-related limitations, see [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
+
 ### From PyPI - Installation
 
 If you want to install LumaChords as a Python package;
@@ -124,19 +139,6 @@ $ .venv\Scripts\activate
 $ uv sync
 $ uv run lumachords
 ```
-
-### From Releases
-
-If you prefer using prebuilt executables, you can download them from the project's [GitHub Releases](https://github.com/adalkiran/lumachords/releases) page.
-
-* Open the latest release and check the **Assets** section.
-* Download the archive that matches your operating system and CPU architecture.
-* Extract the downloaded archive to a directory of your choice.
-* Run the included executable file from the extracted directory.
-
-The published executables are currently not code-signed. Depending on your operating system and security configuration, they may be blocked, require additional confirmation, or may not run without manual allowance. If that happens, use one of the other available installation methods.
-
-Release artifacts are platform-specific, and some platforms may not be available for every version. For current platform-related limitations, see [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ### From Source - Building executables via *PyInstaller*
 

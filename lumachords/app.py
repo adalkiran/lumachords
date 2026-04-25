@@ -155,7 +155,7 @@ class App:
                         video_path, cache_used = await asyncio.to_thread(
                             YoutubeDownloadService.download_youtube_video,
                             self.settings.youtube_input,
-                            FfmpegVideoUtils.has_ffmpeg_binary(),
+                            FfmpegVideoUtils.get_ffmpeg_cmd(),
                             user_level_stop_event,
                             progress_callback=lambda download_percentage, _: progress_overlay.set_progress(download_percentage, message=f"Downloading YouTube video: {self.settings.youtube_input}...")
                         )
@@ -347,7 +347,7 @@ class App:
                 video_path, cache_used = await asyncio.to_thread(
                     YoutubeDownloadService.download_youtube_video,
                     youtube_input,
-                    FfmpegVideoUtils.has_ffmpeg_binary(),
+                    FfmpegVideoUtils.get_ffmpeg_cmd(),
                     self.app_level_stop_event,
                     progress_callback=None,
                 )
